@@ -132,12 +132,21 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-const lenis = new Lenis({
-  autoRaf: false,
-  smoothWheel: true,
-  smoothTouch: false,
-  lerp: 0.08
-});
+let lenis = null;
+
+try {
+  lenis = new Lenis({
+    autoRaf: false,
+    smoothWheel: true,
+    smoothTouch: false,
+    lerp: 0.08
+  });
+  document.documentElement.classList.add('lenis-active');
+} catch (err) {
+  console.warn('Lenis unavailable — falling back to native scroll behaviour.', err);
+  lenis = null;
+  document.documentElement.classList.remove('lenis-active');
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -146,36 +155,41 @@ gsap.set('#zone-home', { opacity: 1 });
 
 let currentScroll = 0;
 
-lenis.on('scroll', ({ scroll }) => {
-  currentScroll = scroll;
-  ScrollTrigger.update();
-});
+if (lenis) {
+  lenis.on('scroll', ({ scroll }) => {
+    currentScroll = scroll;
+    ScrollTrigger.update();
+  });
 
-ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(value) {
-    if (value !== undefined) {
-      lenis.scrollTo(value, { immediate: true });
+  ScrollTrigger.scrollerProxy(document.body, {
+    scrollTop(value) {
+      if (value !== undefined) {
+        lenis.scrollTo(value, { immediate: true });
+      }
+      return currentScroll;
+    },
+    getBoundingClientRect() {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
     }
-    return currentScroll;
-  },
-  getBoundingClientRect() {
-    return {
-      top: 0,
-      left: 0,
-      width: window.innerWidth,
-      height: window.innerHeight
-    };
-  }
-});
+  });
+
+  ScrollTrigger.addEventListener('refresh', () => {
+    if (typeof lenis.resize === 'function') {
+      lenis.resize();
+    }
+  });
+} else {
+  // Ensure ScrollTrigger updates on native scroll fallback
+  window.addEventListener('scroll', () => ScrollTrigger.update());
+}
 
 ScrollTrigger.defaults({
   markers: false
-});
-
-ScrollTrigger.addEventListener('refresh', () => {
-  if (typeof lenis.resize === 'function') {
-    lenis.resize();
-  }
 });
 
 ScrollTrigger.refresh();
@@ -270,7 +284,9 @@ tl.to('#zone-case-studies', {
 });
 
 function tick(time) {
-  lenis.raf(time);
+  if (lenis) {
+    lenis.raf(time);
+  }
   world.update();
   requestAnimationFrame(tick);
 }

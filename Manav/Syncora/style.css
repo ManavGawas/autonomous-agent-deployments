@@ -29,9 +29,15 @@ body {
   font-family: var(--font-stack);
   background-color: var(--color-bg);
   color: var(--color-text);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+html.lenis-active,
+html.lenis-active body {
+  overflow: hidden;
 }
 
 #webgl-canvas {
