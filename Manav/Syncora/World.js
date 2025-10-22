@@ -306,7 +306,7 @@ export default class World {
       btn.style.background = 'transparent';
       btn.style.border = 'none';
       btn.style.padding = '0';
-      btn.style.pointerEvents = 'auto';
+  btn.style.pointerEvents = 'none';
       btn.dataset.index = idx;
       btn.dataset.type = type;
 

@@ -144,6 +144,7 @@ header nav .btn.contact {
   background: transparent;
   border-radius: 6px;
   outline: none;
+  pointer-events: none;
 }
 
 /* Mirror hover without visual heavy shadows; use a subtle ring for focus-visible */
