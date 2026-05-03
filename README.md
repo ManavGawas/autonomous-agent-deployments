@@ -1,6 +1,6 @@
 # Autonomous Agent Deployments // Enterprise AI Orchestration
 
-**Architect:** Manav Gawas ([Syncora Systems](https://syncorasystems.com))  
+**Architect:** Manav Gawas ([Syncora Systems](https://syncora.systems))  
 **Focus:** B2B RevOps Pipelines // Universal Voice AI Systems // Cognitive Workflow Automation  
 
 ---
@@ -34,22 +34,24 @@ This repository contains production-ready cognitive routing and dialogue configu
                         (HubSpot / Salesforce / Shopify)
 
 
-📂 Repository Blueprint
+## 📂 Repository Blueprint
+
 Each directory contains an isolated, production-grade automation solution built using professional AI workflow tools:
 
-📦 Enterprise RevOps Pipeline
+### 📦 [Enterprise RevOps Pipeline](./enterprise-revops-pipeline)
 An event-driven pipeline designed to ingest, validate, route, and execute actions on inbound and outbound B2B sales opportunities.
 
-Backend Orchestration: Webhook signal interception, real-time data enrichment, deduplication, and conditional CRM patching.
+* **Backend Orchestration:** Webhook signal interception, real-time data enrichment, deduplication, and conditional CRM patching.
+* **Voice & Dialogue Engine:** High-stability dialogue trees with mid-call API execution capabilities to handle technical objections, calendar booking, and inventory lookups.
+* **Integration Points:** Custom REST APIs, CRM sync mechanisms, and intelligent automation sequences.
 
-Voice & Dialogue Engine: High-stability dialogue trees with mid-call API execution capabilities to handle technical objections, calendar booking, and inventory lookups.
+---
 
-Integration Points: Custom REST APIs, CRM sync mechanisms, and intelligent automation sequences.
+## 🛠️ The Tech Stack
 
-🛠️ The Tech Stack
 To eliminate human operational latency and automate high-value business pipelines, this repository maps to the following orchestration layers:
 
-Plaintext
+```text
 ┌─────────────────────────┬─────────────────────────────────────────────────┐
 │ System Layer            │ Core Technologies Used                          │
 ├─────────────────────────┼─────────────────────────────────────────────────┤
@@ -59,18 +61,19 @@ Plaintext
 │ Voice & Synthesis Core  │ ElevenLabs / Deepgram Nova-2                    │
 │ Data Persistence        │ PostgreSQL / Supabase / Vector DBs              │
 └─────────────────────────┴─────────────────────────────────────────────────┘
-🚀 Deployment Directives
+
+## 🚀 Deployment Directives
+
 To clone and replicate any specific pipeline in a staging or production environment:
 
-Clone the Repository:
+1. **Clone the Repository:**
+   ```bash
+   git clone [https://github.com/ManavGawas/autonomous-agent-deployments.git](https://github.com/ManavGawas/autonomous-agent-deployments.git)
+   cd autonomous-agent-deployments
+2. * **Navigate to the Target Directive:** Move into the specific solution folder (e.g., `cd enterprise-revops-pipeline`).
+3. * **Import System Files:** Follow the step-by-step instructions in the folder's dedicated `README.md` to load the n8n workflows and Voiceflow state configurations.
+4. * **Configure Environments:** Update all placeholder values with your respective API keys, endpoints, and credentials.
 
-Bash
-git clone [https://github.com/ManavGawas/autonomous-agent-deployments.git](https://github.com/ManavGawas/autonomous-agent-deployments.git)
-cd autonomous-agent-deployments
-Navigate to the Target Directive: Move into the specific solution folder (e.g., cd enterprise-revops-pipeline).
+---
 
-Import System Files: Follow the step-by-step instructions in the folder's dedicated README.md to load the n8n workflows and Voiceflow state configurations.
-
-Configure Environments: Update all placeholder values with your respective API keys, endpoints, and credentials.
-
-Engineered by Manav Gawas. Frameworks fade. Protocols endure.
+*Engineered by Manav Gawas. Frameworks fade. Protocols endure.*
