@@ -1,0 +1,122 @@
+{
+  "name": "Booking_sync",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "booking-sync",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "cc0a8066-9698-4b2b-8f7c-779e12049198",
+      "name": "Webhook",
+      "webhookId": "58360cd1-efbf-4b9a-bf45-67f6e907bd40"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $env.SLACK_CHANNEL_ID }}",
+          "mode": "list",
+          "cachedResultName": "sales_alert"
+        },
+        "text": "=🚀 *NEW DEMO BOOKED!*\n\n👤 *Name:* {{ $json.body.name }}\n🏢 *Company:* {{ $json.body.company_name }}\n💰 *Revenue:* {{ $json.body.annual_revenue }}\n📅 *Time:* {{ $json.body.booking_time }}\n\nGreat job team! 🔥",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        288,
+        -96
+      ],
+      "id": "746c360a-b390-451b-ad91-f9d8e262e01d",
+      "name": "Send a message",
+      "webhookId": "24208132-76dc-49fe-a067-de8ca5b42844",
+      "credentials": {
+        "slackApi": {
+          "id": "bXU2eD6aewsh0MAd",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "email": "={{ $json.body.email }}",
+        "additionalFields": {
+          "annualRevenue": "={{ $json.body.annual_revenue }}",
+          "companyName": "={{ $json.body.company }}",
+          "companySize": "={{ $json.body.vip_status }}",
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "booking_time",
+                "value": "={{ $json.body.booking_time }}"
+              }
+            ]
+          },
+          "facebookClickId": "={{ $json.body.facebook_url }}",
+          "firstName": "={{ $json.body.name }}",
+          "industry": "={{ $json.body.industry }}",
+          "lifeCycleStage": "opportunity",
+          "linkedinUrl": "={{ $json.body.linkedin_url }}",
+          "phoneNumber": "={{ $json.body.phone_no }}",
+          "twitterUsername": "={{ $json.body.twitter_url }}",
+          "websiteUrl": "={{ $json.body.website_url }}",
+          "workEmail": "={{ $json.body.email }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        96
+      ],
+      "id": "38f01be3-dced-4c46-a934-3c68e14b86cc",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "rQEaf9Cjygl0rRgV",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "180fdbb4-f7c7-4a50-a138-44e121bd250e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b633ed9b982f1a31c138736fbfbdbb6fd9a5a1db9faa17319d1d45fb749c4900"
+  },
+  "id": "fMomYM2V6TUD8tVm",
+  "tags": []
+}

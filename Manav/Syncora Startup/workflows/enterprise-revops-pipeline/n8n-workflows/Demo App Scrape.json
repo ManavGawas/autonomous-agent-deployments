@@ -1,0 +1,33 @@
+{
+  "name": "Demo App Scrape",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "scrape",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "eb79b189-2990-4439-b73b-d23dada18104",
+      "name": "Webhook",
+      "webhookId": "b123dd9e-837e-4153-ad39-9003ab46afc8"
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "de31d8f7-4eb1-401e-b662-c21418ce8483",
+  "meta": {
+    "instanceId": "b633ed9b982f1a31c138736fbfbdbb6fd9a5a1db9faa17319d1d45fb749c4900"
+  },
+  "id": "zYINaOkoElJUpXGr",
+  "tags": []
+}
