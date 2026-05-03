@@ -1,0 +1,564 @@
+{
+  "name": "Syncora Booking Check",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "api/check-booking",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ab1b6b5b-adc8-4907-9763-889b8c413122",
+      "name": "Webhook",
+      "webhookId": "9a608981-dc85-4bf0-b33e-3b8c4250af79"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I will give you a requested meeting time (e.g., \"next tuesday at 4\") and the current time is {{ $now }}.\n\nThe meeting takes place in the Asia/Kolkata timezone (+05:30).\nCalculate the specific ISO Start Time and End Time for a 45-minute meeting.\nEnsure the ISO timestamp includes the correct timezone offset (e.g., +05:30).\n\nReturn ONLY a JSON object like this:\n{\n  \"start\": \"2025-12-25T16:00:00+05:30\",\n  \"end\": \"2025-12-25T16:45:00+05:30\"\n}\n\nUser Input: {{ $json.body.requested_time }}\n\nIMPORTANT RULES FOR DATES:\n1. You are allowed to schedule meetings on Weekends (Saturday and Sunday). Do not move them to Monday.\n2. Strictly follow the day of the week requested by the user.\n3. Today's Date is: {{ $now.setZone('Asia/Kolkata').format('cccc, MMMM d, yyyy') }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        256,
+        0
+      ],
+      "id": "be64f83c-5dc3-4b67-9319-df0087b6f6d4",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama-3.3-70b-versatile",
+          "mode": "list",
+          "cachedResultName": "llama-3.3-70b-versatile"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        208
+      ],
+      "id": "e16cd592-0d97-4df4-af80-81c1ef8eda01",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "JiGvozWgpRfI1wi4",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66ea1abc-72f2-4bac-ae90-f9ef8bcb2f4a",
+              "name": "start_time",
+              "value": "={{ JSON.parse($json.text).start }}",
+              "type": "string"
+            },
+            {
+              "id": "f536cd72-02ee-461e-a814-f384c8428cdf",
+              "name": "end_time",
+              "value": "={{ JSON.parse($json.text).end }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        0
+      ],
+      "id": "48642d5b-1991-4860-a1c8-0a6cc1ceb811",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $env.EMAIL_ADDRESS }}",
+          "mode": "list",
+          "cachedResultName": "{{ $env.EMAIL_ADDRESS }}"
+        },
+        "timeMin": "={{ $json.start_time }}",
+        "timeMax": "={{ $json.end_time }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        0
+      ],
+      "id": "c500089a-51f2-46db-a60b-4c2c1fd5e78d",
+      "name": "Get many events",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "AIj8RRw7xbCOYwoI",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a9cb45a1-7359-49ce-b5f9-3f605360a597",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        0
+      ],
+      "id": "c5c1eb49-f237-4a2d-8951-73386657863c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1536,
+        -96
+      ],
+      "id": "3b4c1978-7b80-4a5c-a234-96484832d287",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"booking_status\": \"available\",\n  \"message\": \"That time works perfectly. I have locked it in.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2048,
+        96
+      ],
+      "id": "ad945a05-e813-4294-9b44-a698bd76aaa0",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $env.EMAIL_ADDRESS }}",
+          "mode": "list",
+          "cachedResultName": "{{ $env.EMAIL_ADDRESS }}"
+        },
+        "start": "={{ $('Edit Fields').item.json.start_time }}",
+        "end": "={{ $('Edit Fields').item.json.end_time }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $('Webhook').item.json.body.email }}"
+          ],
+          "summary": "Meeting with Client"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        96
+      ],
+      "id": "35791c47-5907-46c3-b4e0-521ea7c79c20",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "AIj8RRw7xbCOYwoI",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "={{ $env.AIRTABLE_BASE_ID }}",
+          "mode": "list",
+          "cachedResultName": "Syncora RevOps Engine",
+          "cachedResultUrl": "https://airtable.com/{{ $env.AIRTABLE_BASE_ID }}"
+        },
+        "table": {
+          "__rl": true,
+          "value": "={{ $env.AIRTABLE_TABLE_ID }}",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/{{ $env.AIRTABLE_BASE_ID }}/{{ $env.AIRTABLE_TABLE_ID }}"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Booked",
+            "Name": "={{ $('Webhook').item.json.body.email.split('@')[0] }}",
+            "Employees": "={{ $json.organization.estimated_num_employees }}",
+            "Company": "={{ $json.organization.name }}",
+            "Date Captured": "={{ $now }}",
+            "Meeting Time": "={{ $('Edit Fields').item.json.start_time }}",
+            "LinkedIn": "={{ $json.organization.linkedin_url }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Employees",
+              "displayName": "Employees",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "VIP",
+                  "value": "VIP"
+                },
+                {
+                  "name": "Standard",
+                  "value": "Standard"
+                },
+                {
+                  "name": "Booked",
+                  "value": "Booked"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date Captured",
+              "displayName": "Date Captured",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Meeting Time",
+              "displayName": "Meeting Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn",
+              "displayName": "LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1856,
+        96
+      ],
+      "id": "6c15afc4-6a43-4e26-8639-58664aa22b06",
+      "name": "Create a record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "H5FVhtAmMI6izWXH",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1//organizations/enrich",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "domain",
+              "value": "={{ $('Webhook').item.json.body.email.split('@')[1] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1648,
+        96
+      ],
+      "id": "06fa2bbd-5516-4628-863a-6138ba53de8e",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "497d4614-cb1a-4422-81b2-f7c2db49b030",
+              "name": "=alternative_time",
+              "value": "={{ $('Edit Fields').item.json.start_time ? DateTime.fromISO($('Edit Fields').item.json.start_time).plus({ days: 1 }).toFormat('cccc, h:mm a') : 'Tomorrow at 10:00 AM' }}",
+              "type": "string"
+            },
+            {
+              "id": "fcd49837-acd1-49bb-9d78-05c05c630c0c",
+              "name": "booking_status",
+              "value": "busy",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        -96
+      ],
+      "id": "ad3ad3e7-a60a-40e9-ab20-2fc609523179",
+      "name": "Calculator Alternative"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Calculator Alternative",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Create a record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator Alternative": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5e0e280d-2645-4286-a1e2-5af556677393",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b633ed9b982f1a31c138736fbfbdbb6fd9a5a1db9faa17319d1d45fb749c4900"
+  },
+  "id": "rdob0WGXeNdYkHjn",
+  "tags": []
+}

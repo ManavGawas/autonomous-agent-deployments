@@ -1,0 +1,585 @@
+{
+  "name": "Lead Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "api/leads",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "553da4e0-88de-418e-af3d-a65bdfc26314",
+      "name": "Webhook",
+      "webhookId": "d2fb8fad-b704-4ee5-9189-62f2e1aaed5c"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad93dda0-643e-430a-bcde-99b06685713d",
+              "name": "name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "7d8d3d5f-f4df-4762-b3e0-dcac8212f0e8",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "2db854e1-d3a3-4b3d-bffe-3e97b2c3852e",
+              "name": "company",
+              "value": "={{ $json.body.company }}",
+              "type": "string"
+            },
+            {
+              "id": "8c26cef8-ecb5-49e1-b701-9dd01aeb34bc",
+              "name": "employees",
+              "value": "={{ $json.body.employees }}",
+              "type": "string"
+            },
+            {
+              "id": "6811f066-edfe-4804-beda-fc1d25e0f2ad",
+              "name": "status",
+              "value": "={{ $json.body.lead_status }}",
+              "type": "string"
+            },
+            {
+              "id": "5ec4bba0-9462-4a34-a9b8-e31ff96b5a34",
+              "name": "timestamp",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "9ccbbc0f-7484-49dd-9771-f5ea454e49ea",
+              "name": "linkedin_url",
+              "value": "={{ $json.body.linkedin_url }}",
+              "type": "string"
+            },
+            {
+              "id": "79345c5d-8172-4c6e-a2ca-fb778b9920ac",
+              "name": "twitter_url",
+              "value": "={{ $json.body.twitter_url }}",
+              "type": "string"
+            },
+            {
+              "id": "d37c72bf-2653-43a5-962e-965b08bd7dcc",
+              "name": "facebook_url",
+              "value": "={{ $json.body.facebook_url }}",
+              "type": "string"
+            },
+            {
+              "id": "1c972f6e-2bf8-433d-a21e-dcf71774e53d",
+              "name": "website_url",
+              "value": "={{ $json.body.website_url }}",
+              "type": "string"
+            },
+            {
+              "id": "2043bb4f-d8f7-4263-b130-e0b446c94b6f",
+              "name": "industry",
+              "value": "={{ $json.body.industry }}",
+              "type": "string"
+            },
+            {
+              "id": "524fe9b4-f534-4a95-9753-c1d2023da594",
+              "name": "phone",
+              "value": "={{ $json.body.phone_no }}",
+              "type": "string"
+            },
+            {
+              "id": "b3ccd885-52a7-4aeb-9e87-8ca397da6ce7",
+              "name": "meeting_time",
+              "value": "={{ $json.body.meeting_time }}",
+              "type": "string"
+            },
+            {
+              "id": "6d9104a6-dad7-41fa-a82e-b8a7eb12c1b0",
+              "name": "annual_revenue",
+              "value": "={{ $json.body.annual_revenue }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "e90eb6ad-cfac-4606-bc89-9b6187924fd8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "={{ $env.AIRTABLE_BASE_ID }}",
+          "mode": "list",
+          "cachedResultName": "Syncora RevOps Engine",
+          "cachedResultUrl": "https://airtable.com/{{ $env.AIRTABLE_BASE_ID }}"
+        },
+        "table": {
+          "__rl": true,
+          "value": "={{ $env.AIRTABLE_TABLE_ID }}",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/{{ $env.AIRTABLE_BASE_ID }}/{{ $env.AIRTABLE_TABLE_ID }}"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Employees": "={{ $json.employees }}",
+            "Name": "={{ $json.name }}",
+            "Email": "={{ $json.email }}",
+            "Company": "={{ $json.company }}",
+            "Status": "={{ $json.status }}",
+            "Date Captured": "={{ $json.timestamp }}",
+            "LinkedIn": "={{ $json.linkedin_url }}",
+            "Twitter ": "={{ $json.twitter_url }}",
+            "Industry": "={{ $json.industry }}",
+            "Phone No.": "={{ $json.phone }}",
+            "Facebook ": "={{ $json.facebook_url }}",
+            "Website": "={{ $json.website_url }}",
+            "Meeting Time": "={{ $json.meeting_time }}",
+            "annual_revenue": "={{ $json.annual_revenue }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Employees",
+              "displayName": "Employees",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "VIP",
+                  "value": "VIP"
+                },
+                {
+                  "name": "Standard",
+                  "value": "Standard"
+                },
+                {
+                  "name": "Booked",
+                  "value": "Booked"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date Captured",
+              "displayName": "Date Captured",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Meeting Time",
+              "displayName": "Meeting Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn",
+              "displayName": "LinkedIn",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Twitter ",
+              "displayName": "Twitter ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone No.",
+              "displayName": "Phone No.",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Facebook ",
+              "displayName": "Facebook ",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "annual_revenue",
+              "displayName": "annual_revenue",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        384,
+        0
+      ],
+      "id": "ba3dee98-ff56-438c-b483-d312813378bb",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "H5FVhtAmMI6izWXH",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        0
+      ],
+      "id": "e5eaabac-cfb3-48db-b8cd-3308609ad3b5",
+      "name": "Wait",
+      "webhookId": "eeccc9ac-3cf4-4bc4-b1c9-e4c77e572d85"
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "operation": "search",
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "email|string",
+                    "value": "={{ $('Create a record').item.json.fields.Email }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "properties": [
+            "firstname",
+            "lastname",
+            "email",
+            "booking_time"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        0
+      ],
+      "id": "9faa44d6-368e-4687-a880-8cce4814278a",
+      "name": "Search contacts",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "rQEaf9Cjygl0rRgV",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "20f87185-9309-431f-aa13-286774faa9c0",
+              "leftValue": "={{ $json.properties.booking_time }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "f465359b-ca6b-4dfe-9023-1b37dc1522e2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Search contacts').item.json.properties.email }}",
+        "subject": "Quick link to my calendar (from our call)",
+        "message": "=<p>Hi {{ $json.properties.firstname }},</p>  <p>Great speaking with you earlier! I noticed we didn't get a chance to lock in a specific time for the demo during our call.</p>  <p>If you're still looking to automate your operations, here is the link to my calendar:</p>  <p><a href=\"https://calendar.app.google/QN6rgHRAWiPsTtKM6\">Click here to book a time</a></p>  <p>Best,<br> [Your Name]</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1344,
+        -96
+      ],
+      "id": "d5be32cc-f46c-4d63-92f2-c18f7d59314d",
+      "name": "Send a message",
+      "webhookId": "3fc41be0-30c6-4d14-9b56-40a53516e573",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "O7hLJaxOwcpDecMQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "email": "={{ $json.fields.Email }}",
+        "additionalFields": {
+          "companyName": "={{ $json.fields.Company }}",
+          "companySize": "={{ $json.fields.Employees }}",
+          "facebookClickId": "={{ $json.fields['Facebook '] }}",
+          "firstName": "={{ $json.fields.Name }}",
+          "industry": "={{ $json.fields.Industry }}",
+          "phoneNumber": "={{ $json.fields['Phone No.'] }}",
+          "twitterUsername": "={{ $json.fields['Twitter '] }}",
+          "websiteUrl": "={{ $json.fields.Website }}",
+          "workEmail": "={{ $json.fields.Email }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        0
+      ],
+      "id": "5628cdb5-eaca-4ad1-859a-686474ac8b77",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "rQEaf9Cjygl0rRgV",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Search contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search contacts": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "248a2890-82b0-4c7b-a9ee-c3b198fdde34",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b633ed9b982f1a31c138736fbfbdbb6fd9a5a1db9faa17319d1d45fb749c4900"
+  },
+  "id": "TGAgUH8ZVCr7oE1E",
+  "tags": []
+}

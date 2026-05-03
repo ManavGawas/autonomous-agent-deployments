@@ -1,0 +1,192 @@
+{
+  "name": "Enrichment API Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "enrich",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a4f09497-4119-4b2b-8647-a26f8efe0c32",
+      "name": "Webhook",
+      "webhookId": "a8766cce-b095-4c79-bc2e-b0daf82a8603"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"company_size\": {{ $json.company_size }},\n  \"company\": \"{{ $json.company }}\",\n  \"name\": \"{{ $json.name }}\",\n  \"linkedin_url\": \"{{ $json.linkedin_url }}\",\n  \"phone_no\": \"{{ $json.primary_phone_number }}\",\n  \"website_url\": \"{{ $json.website_url }}\",\n  \"industry\": \"{{ $json.industry }}\",\n  \"twitter_url\": \"{{ $json.twitter_url }}\",\n  \"facebook_url\": \"{{ $json.facebook_url }}\",\n  \"annual_revenue\" : {{ $json.annual_revenue }}\n\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        656,
+        0
+      ],
+      "id": "4443fa58-1f2b-4f75-b1bc-917da7b384a8",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apollo.io/v1/organizations/enrich",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "domain",
+              "value": "={{ $json.body.email.split(\"@\")[1] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "36547baf-cb7f-4043-9b65-7c664dc9e7af",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b341aacc-c0fc-4571-ac25-36e81cfba087",
+              "name": "company_size",
+              "value": "={{ $json.organization.estimated_num_employees }}",
+              "type": "number"
+            },
+            {
+              "id": "c22294db-515f-4f96-b3a8-9ebbbd7b7ea7",
+              "name": "=company",
+              "value": "={{ $json.organization.name }}",
+              "type": "string"
+            },
+            {
+              "id": "e6f89afc-03c7-4a8d-a1da-cb1f448c0fa9",
+              "name": "name",
+              "value": "Unknown",
+              "type": "string"
+            },
+            {
+              "id": "8caaae7c-c8ee-4408-8419-a005ed8c0891",
+              "name": "linkedin_url",
+              "value": "={{ $json.organization.linkedin_url }}",
+              "type": "string"
+            },
+            {
+              "id": "24618dac-731a-4456-989d-8beb30743b62",
+              "name": "primary_phone_number",
+              "value": "={{ $json.organization.primary_phone.number }}",
+              "type": "string"
+            },
+            {
+              "id": "4c9efae3-12fc-4973-a702-924348f43423",
+              "name": "website_url",
+              "value": "={{ $json.organization.website_url }}",
+              "type": "string"
+            },
+            {
+              "id": "1acc8840-6324-4c75-90d3-8539c9bf6b26",
+              "name": "industry",
+              "value": "={{ $json.organization.industry }}",
+              "type": "string"
+            },
+            {
+              "id": "2422d569-b181-4052-b1d0-410286c47025",
+              "name": "twitter_url",
+              "value": "={{ $json.organization.twitter_url }}",
+              "type": "string"
+            },
+            {
+              "id": "3c29a43f-10d3-443b-8eec-19f98cc53151",
+              "name": "facebook_url",
+              "value": "={{ $json.organization.facebook_url }}",
+              "type": "string"
+            },
+            {
+              "id": "94cbeac3-d166-4945-967c-6cb2ef0d6e1d",
+              "name": "annual_revenue",
+              "value": "={{ $json.organization.annual_revenue }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "ea752263-932c-46c5-bb75-bae3a2ab7c34",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "81a60811-35a8-4f85-ac7d-cca0124af0d0",
+  "meta": {
+    "instanceId": "b633ed9b982f1a31c138736fbfbdbb6fd9a5a1db9faa17319d1d45fb749c4900"
+  },
+  "id": "N39V95W4Q7NXlLtU",
+  "tags": []
+}

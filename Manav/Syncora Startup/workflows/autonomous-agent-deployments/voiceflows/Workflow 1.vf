@@ -1,0 +1,2959 @@
+{
+  "version": {
+    "_version": 13.05,
+    "autoSaveFromRestore": false,
+    "canvasTemplates": [],
+    "components": [],
+    "creatorID": 1861622,
+    "manualSave": false,
+    "model": {},
+    "name": "Initial Version",
+    "platformData": {
+      "slots": [],
+      "intents": [
+        {
+          "key": "None",
+          "name": "None",
+          "slots": [],
+          "inputs": [],
+          "noteID": null
+        }
+      ],
+      "settings": {
+        "restart": true,
+        "repeat": 100,
+        "locales": [
+          "en-US"
+        ],
+        "globalNoMatch": {
+          "type": "static",
+          "prompt": {
+            "content": [
+              {
+                "children": [
+                  {
+                    "text": "Sorry, I didn’t get that. Please try again."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "messageDelay": {
+          "durationMilliseconds": 500
+        },
+        "defaultVoice": "elevenlabs:eleven_turbo_v2_5:ZF6FPAbjXT4488VcRRnw",
+        "deepgramASR": {
+          "silenceWaitMS": 10,
+          "punctuationWaitMS": 200,
+          "partialWaitMS": 1000,
+          "interruptionWaitWords": 1,
+          "audioCue": null
+        }
+      },
+      "publishing": {
+        "avatar": "https://cdn.voiceflow.com/assets/logo.png",
+        "color": "#397DFF",
+        "description": "Hi, how can I help you today?",
+        "feedback": false,
+        "image": "https://cdn.voiceflow.com/assets/logo.png",
+        "persistence": "localStorage",
+        "position": "right",
+        "spacing": {
+          "side": 24,
+          "bottom": 24
+        },
+        "title": "Your AI agent",
+        "watermark": true,
+        "audioInterface": true
+      },
+      "platform": "webchat"
+    },
+    "programResources": {
+      "agents": {
+        "692c371109ca61000745e28c": {
+          "name": "Greeting and introduction",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e298",
+              "name": "User wants general information or asks a question",
+              "variables": [],
+              "description": "Triggered if the user asks about features, pricing, platform, or another general question."
+            },
+            {
+              "id": "692c371109ca61000745e299",
+              "name": "User expresses interest in a demo or booking a meeting",
+              "variables": [],
+              "description": "Triggered if the user requests a demo or expresses interest in a sales call or booking."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Greet the user with: \"Hi! I'm the Syncora AI. I can answer questions about our platform or help you book a demo. How can I help?\" Listen for user intent and route to either general Q&A (knowledge base) or qualification for a demo.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e28d": {
+          "name": "General Q&A (knowledge base)",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e29a",
+              "name": "User expresses interest in a demo or says yes",
+              "variables": [],
+              "description": "If user replies positively to demo suggestion or asks to see a demo."
+            },
+            {
+              "id": "692c371109ca61000745e29b",
+              "name": "User does not want demo or conversation ends",
+              "variables": [],
+              "description": "If user says no or signals end of conversation after question is resolved."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Answer general questions about Syncora Systems using the knowledge base. After providing the answer, always ask: \"Would you like to see a demo?\" Capture a clear 'yes' or 'no' intent to route appropriately.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": {
+            "enabled": true,
+            "description": "Searches an external knowledge base to retrieve relevant information, supplementing or replacing the language model's internal context."
+          },
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e28e": {
+          "name": "Demo qualification: Email capture",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e29c",
+              "name": "Valid email provided",
+              "variables": [],
+              "description": "User provides a valid email address."
+            },
+            {
+              "id": "692c371109ca61000745e29d",
+              "name": "Invalid email provided, ask to retry",
+              "variables": [],
+              "description": "User provides an invalid email address (missing '@' or not business email)."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Begin the qualification process for a demo. Ask: \"Great! To get you to the right specialist, what is your business email address?\" Validate their input as a business email address.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e28f": {
+          "name": "Retry email capture",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e29e",
+              "name": "Valid email provided on retry",
+              "variables": [],
+              "description": "User provides a valid email on the retry."
+            },
+            {
+              "id": "692c371109ca61000745e29f",
+              "name": "Invalid email provided again",
+              "variables": [],
+              "description": "User fails to provide a valid business email twice."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Inform the user: \"That doesn't look like a business email. Could you please provide your business email address?\" Validate input once more.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e291": {
+          "name": "Ask company size",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2a2",
+              "name": "Valid company size provided",
+              "variables": [],
+              "description": "User provides a valid positive integer for company size."
+            },
+            {
+              "id": "692c371109ca61000745e2a3",
+              "name": "Invalid company size provided, ask to retry",
+              "variables": [],
+              "description": "User provides a non-numeric, zero, or negative value for company size."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Ask: \"Thanks. Just one more question: roughly how many employees work at your company?\" Capture input and save as {company_size}. Validate that the input is a numeric value, greater than zero.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e292": {
+          "name": "Retry company size capture",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2a4",
+              "name": "Valid company size provided on retry",
+              "variables": [],
+              "description": "User provides a valid company size on retry."
+            },
+            {
+              "id": "692c371109ca61000745e2a5",
+              "name": "Invalid value provided again",
+              "variables": [],
+              "description": "User fails to provide a valid company size after a second attempt."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Let the user know: \"Sorry, I didn’t catch that. How many employees work at your company? Please provide a number.\" Validate that the input is a positive number.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e293": {
+          "name": "Company size decision point",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2a6",
+              "name": "Company size greater than 50 (VIP)",
+              "variables": [],
+              "description": "Route to enterprise flow for companies with more than 50 employees."
+            },
+            {
+              "id": "692c371109ca61000745e2a7",
+              "name": "Company size 50 or fewer (Standard)",
+              "variables": [],
+              "description": "Route to standard self-serve plan for companies with 50 or fewer employees."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Evaluate the numeric value captured as {company_size}. If greater than 50, proceed to the enterprise path. Otherwise, proceed to the standard self-serve path.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e294": {
+          "name": "Enterprise account director handoff",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2a8",
+              "name": "Demo flow concluded, conversation complete",
+              "variables": [],
+              "description": "End the flow after enterprise handoff and link display."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Inform the user: \"Excellent. I see you're with a growing team. I am connecting you directly with our Enterprise Account Director.\" Display a text block with a placeholder for a Calendly link to book a meeting.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e295": {
+          "name": "Self-serve plan and pricing link",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2a9",
+              "name": "Self-serve plan presented, conversation complete",
+              "variables": [],
+              "description": "End the flow after pricing link is given."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Tell the user: \"Thanks! For teams your size, our Self-Serve plan is the best fit. You can get started instantly.\" Display a text block with a link to the pricing page (e.g., https://syncorasystems.com/pricing).",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e296": {
+          "name": "Wrap-up happy exit",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2aa",
+              "name": "Conversation complete",
+              "variables": [],
+              "description": "Exit after happy wrap-up."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Thank the user courteously for their interest or question. Maintain a professional tone and let them know they can return at any time if they need more help.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        },
+        "692c371109ca61000745e297": {
+          "name": "Wrap-up unhappy exit",
+          "settings": {
+            "model": "claude-4-sonnet",
+            "maxTokens": 5000,
+            "temperature": 0.3,
+            "reasoningEffort": null
+          },
+          "cardTool": null,
+          "apiTools": [],
+          "pathTools": [
+            {
+              "id": "692c371109ca61000745e2ab",
+              "name": "Unhappy path complete",
+              "variables": [],
+              "description": "End the flow after polite apologies."
+            }
+          ],
+          "buttonTool": null,
+          "description": null,
+          "carouselTool": null,
+          "instructions": "Express regret that you couldn't assist further due to invalid information and invite them to try again later. Maintain a professional demeanor.",
+          "functionTools": [],
+          "webSearchTool": null,
+          "callForwardTool": null,
+          "integrationTools": [],
+          "knowledgeBaseTool": null,
+          "mcpIntegrationTools": []
+        }
+      },
+      "prompts": {},
+      "apiTools": {},
+      "messages": {},
+      "globalPrompts": null,
+      "integrationTools": {},
+      "mcpIntegrationTools": {}
+    },
+    "prototype": {
+      "type": "chat",
+      "data": {
+        "name": "Syncora Systems B2B SaaS Lead Generation and Concierge Flow",
+        "locales": [
+          "en-US"
+        ]
+      },
+      "model": {
+        "intents": [],
+        "slots": []
+      },
+      "context": {
+        "stack": [
+          {
+            "diagramID": "692c371109ca61000745e2ac",
+            "storage": {},
+            "variables": {}
+          }
+        ],
+        "variables": {}
+      },
+      "surveyorContext": {
+        "platform": "webchat",
+        "slotsMap": {},
+        "extraSlots": [],
+        "cmsEntities": {},
+        "extraIntents": [],
+        "cmsVariables": {
+          "company_size": {
+            "isArray": false,
+            "isSystem": false,
+            "datatype": "any",
+            "description": "",
+            "defaultValue": null
+          },
+          "sessions": {
+            "isSystem": true,
+            "description": "The number of times a particular user has opened the app.",
+            "defaultValue": null
+          },
+          "user_id": {
+            "isSystem": true,
+            "description": "The user's unique ID.",
+            "defaultValue": null
+          },
+          "timestamp": {
+            "isSystem": true,
+            "description": "UNIX timestamp (number of seconds since January 1st, 1970 at UTC).",
+            "defaultValue": null
+          },
+          "platform": {
+            "isSystem": true,
+            "description": "The platform your agent is running on (e.g. \"voiceflow\").",
+            "defaultValue": null
+          },
+          "locale": {
+            "isSystem": true,
+            "description": "The locale of the user (eg. en-US, en-CA, it-IT, fr-FR, ...).",
+            "defaultValue": null
+          },
+          "intent_confidence": {
+            "isSystem": true,
+            "description": "The confidence interval (measured as a value from 0 to 100) for the most recently matched intent.",
+            "defaultValue": null
+          },
+          "last_response": {
+            "isSystem": true,
+            "description": "The agent's last response (text/speak) in a string.",
+            "defaultValue": null
+          },
+          "last_event": {
+            "isSystem": true,
+            "description": "The object containing the last event that the user client has triggered.",
+            "defaultValue": null
+          },
+          "last_utterance": {
+            "isSystem": true,
+            "description": "The user's last utterance in a text string.",
+            "defaultValue": null
+          },
+          "vf_memory": {
+            "isSystem": true,
+            "description": "Last 10 user inputs and agent responses in a string (e.g. \"agent: How can i help?\"\nuser: What's the weather today?).",
+            "defaultValue": null
+          },
+          "vf_date": {
+            "isSystem": true,
+            "description": "Current date in the format \"Jan 1, 2025\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_time": {
+            "isSystem": true,
+            "description": "Current time in the format \"16:37\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_day": {
+            "isSystem": true,
+            "description": "Current day of month in the format \"1\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_month": {
+            "isSystem": true,
+            "description": "Current month in the format \"January\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_year": {
+            "isSystem": true,
+            "description": "Current year in the format \"2025\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_now": {
+            "isSystem": true,
+            "description": "Current date and time in the format \"Jan 1, 2025, 16:37\". You can modify the timezone in project settings.",
+            "defaultValue": null
+          },
+          "vf_user_timezone": {
+            "isSystem": true,
+            "description": "The user's timezone in the format \"America/Toronto\", if available. Defaults to the project timezone.",
+            "defaultValue": null
+          }
+        },
+        "usedIntentsSet": [],
+        "functionDefinitions": {},
+        "referencedAgentsIDs": [
+          "692c371109ca61000745e28c",
+          "692c371109ca61000745e28d",
+          "692c371109ca61000745e28e",
+          "692c371109ca61000745e28f",
+          "692c371109ca61000745e291",
+          "692c371109ca61000745e292",
+          "692c371109ca61000745e293",
+          "692c371109ca61000745e294",
+          "692c371109ca61000745e295",
+          "692c371109ca61000745e296",
+          "692c371109ca61000745e297"
+        ],
+        "referencedPromptIDs": [],
+        "referencedAPIToolIDs": [],
+        "referencedResponseIDs": [],
+        "referencedIntegrationToolIDs": [],
+        "referencedMCPIntegrationToolIDs": [],
+        "interfaces": [],
+        "permissions": [],
+        "usedEventsSet": [],
+        "goToIntentsSet": []
+      },
+      "settings": {},
+      "platform": "webchat"
+    },
+    "settings": {
+      "voice": {
+        "stt": {
+          "provider": "deepgram",
+          "model": "flux",
+          "locale": "en",
+          "punctuationWaitMS": 200,
+          "partialWaitMS": 1000,
+          "silenceWaitMS": 10,
+          "interruptionWaitWords": 1
+        },
+        "tts": {
+          "provider": "elevenlabs",
+          "model": "eleven_turbo_v2_5",
+          "voice": "ZF6FPAbjXT4488VcRRnw",
+          "settings": {
+            "speed": 1.2
+          }
+        },
+        "failureMessage": "We’re sorry, but the call cannot be completed at this time. Please try again later.",
+        "hasCallRecording": true,
+        "audioSync": false
+      },
+      "widget": {
+        "type": "chat",
+        "chat": {
+          "renderMode": "widget",
+          "headerImage": {
+            "enabled": true
+          },
+          "agentImage": {
+            "enabled": false
+          },
+          "banner": {
+            "title": "Your AI agent",
+            "description": "How can I help you today?",
+            "enabled": true
+          },
+          "placeholderText": "Message...",
+          "disclaimer": {
+            "enabled": false,
+            "title": "Privacy notice",
+            "description": "Before we can proceed with your conversation, we kindly ask you to review and accept our privacy policy, outlining how we handle and protect your personal information throughout our services.",
+            "primaryButtonText": "Submit",
+            "secondaryButtonText": "Privacy policy",
+            "secondaryButtonURL": ""
+          },
+          "aiDisclaimer": {
+            "text": "Generated by AI, double-check for accuracy.",
+            "enabled": false
+          },
+          "handoffToAgentImageURL": "",
+          "voiceInput": true,
+          "voiceOutput": true,
+          "voiceMode": true
+        },
+        "voice": {
+          "renderMode": "full",
+          "content": {
+            "talkingText": "Talk to interrupt",
+            "endButtonText": "End",
+            "listeningText": "Listening...",
+            "startButtonText": "Start a call",
+            "callToActionText": "How can I help you?"
+          }
+        },
+        "common": {
+          "sideSpacing": "20",
+          "bottomSpacing": "20",
+          "position": "right",
+          "fontFamily": "UCity Pro",
+          "primaryColor": {
+            "color": "#397DFF",
+            "palette": {
+              "50": "#E7F5FD",
+              "100": "#C6E4FB",
+              "200": "#A2D2FA",
+              "300": "#87BFFB",
+              "400": "#659FFD",
+              "500": "#397DFF",
+              "600": "#2F68DB",
+              "700": "#264EB4",
+              "800": "#1C368E",
+              "900": "#0F1E61"
+            }
+          },
+          "poweredBy": true,
+          "launcher": {
+            "type": "both",
+            "text": "Test your agent"
+          },
+          "footerLink": {
+            "enabled": false
+          },
+          "persistence": "localStorage"
+        },
+        "security": {
+          "approvedDomains": {
+            "enabled": false,
+            "domains": ""
+          },
+          "disableTranscript": false
+        }
+      },
+      "memory": {
+        "turns": 50
+      },
+      "llmFallback": {
+        "models": {
+          "open-ai": {
+            "*": {
+              "provider": "anthropic",
+              "model": "claude-4-sonnet"
+            }
+          },
+          "anthropic": {
+            "*": {
+              "provider": "open-ai",
+              "model": "gpt-4.1-2025-04-14"
+            }
+          },
+          "groq": {
+            "*": {
+              "provider": "anthropic",
+              "model": "claude-4-sonnet"
+            }
+          },
+          "google": {
+            "*": {
+              "provider": "anthropic",
+              "model": "claude-4-sonnet"
+            }
+          }
+        }
+      },
+      "globalNoMatch": {
+        "type": "static",
+        "prompt": [
+          {
+            "text": [
+              "Sorry, I didn’t get that. Please try again."
+            ]
+          }
+        ]
+      },
+      "intentClassification": {
+        "type": "rag",
+        "params": {
+          "model": "claude-3.5-haiku",
+          "temperature": 0.1
+        },
+        "promptWrapper": null
+      }
+    },
+    "topics": [
+      {
+        "type": "DIAGRAM",
+        "sourceID": "64dbb6696a8fab0013dba194"
+      }
+    ],
+    "variables": [
+      "company_size",
+      "sessions",
+      "user_id",
+      "timestamp",
+      "platform",
+      "locale",
+      "intent_confidence",
+      "last_response",
+      "last_event",
+      "last_utterance",
+      "vf_memory",
+      "vf_date",
+      "vf_time",
+      "vf_day",
+      "vf_month",
+      "vf_year",
+      "vf_now",
+      "vf_user_timezone"
+    ],
+    "_id": "692c3711906ea96d5406d33f",
+    "updatedAt": "2025-12-05T07:13:29.567Z",
+    "publishedAt": "2024-09-27T16:54:27.996Z",
+    "domains": [
+      {
+        "id": "cla06iyr900b206pkh8d4ap8n",
+        "name": "Home",
+        "live": true,
+        "topicIDs": [
+          "64dbb6696a8fab0013dba194"
+        ],
+        "rootDiagramID": "64dbb6696a8fab0013dba194",
+        "updatedBy": 1861622,
+        "updatedAt": "2025-11-30T12:22:41.628Z"
+      }
+    ],
+    "projectID": "692c3711906ea96d5406d33e",
+    "rootDiagramID": "692c371109ca61000745e2ac",
+    "templateDiagramID": "64dbb6696a8fab0013dba195"
+  },
+  "diagrams": {
+    "692c371109ca61000745e2ac": {
+      "name": "Syncora Systems B2B SaaS Lead Generation and Concierge Flow",
+      "type": "TOPIC",
+      "zoom": 100,
+      "nodes": {
+        "692c36ff09ca61000745e26b": {
+          "nodeID": "692c36ff09ca61000745e26b",
+          "type": "start",
+          "data": {
+            "name": "Start",
+            "color": "#56b365",
+            "triggers": [],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "id": "692c36ff09ca61000745e26c",
+                  "type": "next",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -206.96,
+                          35.98
+                        ]
+                      },
+                      {
+                        "point": [
+                          265,
+                          27
+                        ]
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2c071j3s1t6zxc"
+                }
+              },
+              "dynamic": []
+            },
+            "steps": []
+          },
+          "coords": [
+            -271.29686479275944,
+            13.984374473853583
+          ]
+        },
+        "cmiloxmk20l2o071jcsvo5exx": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2o071jcsvo5exx",
+          "data": {
+            "agentID": "692c371109ca61000745e28c",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e298": {
+                  "id": "692c371109ca61000745e298",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          304.29,
+                          351.6
+                        ]
+                      },
+                      {
+                        "point": [
+                          499.64,
+                          351.6
+                        ]
+                      },
+                      {
+                        "point": [
+                          499.64,
+                          27
+                        ]
+                      },
+                      {
+                        "point": [
+                          695,
+                          27
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2d071j9el00f59"
+                },
+                "692c371109ca61000745e299": {
+                  "id": "692c371109ca61000745e299",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          304.29,
+                          431.1
+                        ]
+                      },
+                      {
+                        "point": [
+                          484.53,
+                          431.1
+                        ]
+                      },
+                      {
+                        "point": [
+                          484.53,
+                          391.55
+                        ]
+                      },
+                      {
+                        "point": [
+                          664.77,
+                          391.55
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2e071j2jjl56jv"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "coords": [
+            0,
+            0
+          ]
+        },
+        "cmiloxmk20l2p071j7aq2ap75": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2p071j7aq2ap75",
+          "data": {
+            "agentID": "692c371109ca61000745e28d",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e29a": {
+                  "id": "692c371109ca61000745e29a",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          677.36,
+                          346.11
+                        ]
+                      },
+                      {
+                        "point": [
+                          701.36,
+                          346.11
+                        ]
+                      },
+                      {
+                        "point": [
+                          701.36,
+                          368.83
+                        ]
+                      },
+                      {
+                        "point": [
+                          640.77,
+                          368.83
+                        ]
+                      },
+                      {
+                        "point": [
+                          640.77,
+                          391.55
+                        ]
+                      },
+                      {
+                        "point": [
+                          664.77,
+                          391.55
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2e071j2jjl56jv"
+                },
+                "692c371109ca61000745e29b": {
+                  "id": "692c371109ca61000745e29b",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          677.36,
+                          416.11
+                        ]
+                      },
+                      {
+                        "point": [
+                          752.45,
+                          416.11
+                        ]
+                      },
+                      {
+                        "point": [
+                          752.45,
+                          881.29
+                        ]
+                      },
+                      {
+                        "point": [
+                          827.54,
+                          881.29
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2m071j4lrhgktx"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2q071j26jwa1az": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2q071j26jwa1az",
+          "data": {
+            "agentID": "692c371109ca61000745e28e",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e29c": {
+                  "id": "692c371109ca61000745e29c",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          600.75,
+                          887.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          867.31,
+                          887.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          867.31,
+                          407.81
+                        ]
+                      },
+                      {
+                        "point": [
+                          1133.87,
+                          407.81
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "692fe7a2d3ecca819b7efbf1"
+                },
+                "692c371109ca61000745e29d": {
+                  "id": "692c371109ca61000745e29d",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          600.75,
+                          949.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          862.87,
+                          949.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          862.87,
+                          27
+                        ]
+                      },
+                      {
+                        "point": [
+                          1125,
+                          27
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2f071j1cpq8nzs"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "coords": [
+            0,
+            0
+          ]
+        },
+        "cmiloxmk20l2r071jez5e7u9x": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2r071jez5e7u9x",
+          "data": {
+            "agentID": "692c371109ca61000745e28f",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e29e": {
+                  "id": "692c371109ca61000745e29e",
+                  "type": "",
+                  "data": {},
+                  "target": null
+                },
+                "692c371109ca61000745e29f": {
+                  "id": "692c371109ca61000745e29f",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          1052.09,
+                          440.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          1303.55,
+                          440.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          1303.55,
+                          357
+                        ]
+                      },
+                      {
+                        "point": [
+                          1555,
+                          357
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2n071j3fa85tnh"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2t071j7v4l15fu": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2t071j7v4l15fu",
+          "data": {
+            "agentID": "692c371109ca61000745e291",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2a2": {
+                  "id": "692c371109ca61000745e2a2",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          1797.79,
+                          320.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          1891.39,
+                          320.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          1891.39,
+                          357
+                        ]
+                      },
+                      {
+                        "point": [
+                          1985,
+                          357
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2j071jb5omahor"
+                },
+                "692c371109ca61000745e2a3": {
+                  "id": "692c371109ca61000745e2a3",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          1797.79,
+                          390.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          1891.39,
+                          390.72
+                        ]
+                      },
+                      {
+                        "point": [
+                          1891.39,
+                          27
+                        ]
+                      },
+                      {
+                        "point": [
+                          1985,
+                          27
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2i071jfamm2jio"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "coords": [
+            0,
+            0
+          ]
+        },
+        "cmiloxmk20l2u071j5jteg6uw": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2u071j5jteg6uw",
+          "data": {
+            "agentID": "692c371109ca61000745e292",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2a4": {
+                  "id": "692c371109ca61000745e2a4",
+                  "type": "",
+                  "data": {},
+                  "target": "cmiloxmk20l2j071jb5omahor"
+                },
+                "692c371109ca61000745e2a5": {
+                  "id": "692c371109ca61000745e2a5",
+                  "type": "",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          1984,
+                          266
+                        ],
+                        "reversed": true
+                      },
+                      {
+                        "point": [
+                          1934.5,
+                          266
+                        ]
+                      },
+                      {
+                        "point": [
+                          1934.5,
+                          357
+                        ]
+                      },
+                      {
+                        "point": [
+                          1885,
+                          357
+                        ],
+                        "reversed": true,
+                        "allowedToTop": true
+                      }
+                    ]
+                  },
+                  "target": "cmiloxmk20l2n071j3fa85tnh"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2v071j748rav86": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2v071j748rav86",
+          "data": {
+            "agentID": "692c371109ca61000745e293",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2a6": {
+                  "id": "692c371109ca61000745e2a6",
+                  "type": "",
+                  "data": {},
+                  "target": "cmiloxmk20l2k071jaj566m49"
+                },
+                "692c371109ca61000745e2a7": {
+                  "id": "692c371109ca61000745e2a7",
+                  "type": "",
+                  "data": {},
+                  "target": "cmiloxmk20l2l071j7vrxaz28"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2w071j8t7861ti": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2w071j8t7861ti",
+          "data": {
+            "agentID": "692c371109ca61000745e294",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2a8": {
+                  "id": "692c371109ca61000745e2a8",
+                  "type": "",
+                  "data": {},
+                  "target": null
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2x071j9mzfd3fz": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2x071j9mzfd3fz",
+          "data": {
+            "agentID": "692c371109ca61000745e295",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2a9": {
+                  "id": "692c371109ca61000745e2a9",
+                  "type": "",
+                  "data": {},
+                  "target": null
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2y071j0h192s3u": {
+          "type": "agent",
+          "nodeID": "cmiloxmk20l2y071j0h192s3u",
+          "data": {
+            "agentID": "692c371109ca61000745e296",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2aa": {
+                  "id": "692c371109ca61000745e2aa",
+                  "type": "",
+                  "data": {},
+                  "target": null
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk30l2z071jbocu9so3": {
+          "type": "agent",
+          "nodeID": "cmiloxmk30l2z071jbocu9so3",
+          "data": {
+            "agentID": "692c371109ca61000745e297",
+            "listenForOtherTriggers": false,
+            "exitEveryConversationalTurn": false,
+            "portsV2": {
+              "byKey": {
+                "692c371109ca61000745e2ab": {
+                  "id": "692c371109ca61000745e2ab",
+                  "type": "",
+                  "data": {},
+                  "target": null
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2c071j3s1t6zxc": {
+          "type": "block",
+          "coords": [
+            138.2887025665115,
+            138.10346120389016
+          ],
+          "nodeID": "cmiloxmk20l2c071j3s1t6zxc",
+          "data": {
+            "name": "Greeting and introduction",
+            "color": "#A1ADBA",
+            "steps": [
+              "cmiloxmk20l2o071jcsvo5exx"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2d071j9el00f59": {
+          "type": "block",
+          "coords": [
+            511.35736129113656,
+            123.11409545156148
+          ],
+          "nodeID": "cmiloxmk20l2d071j9el00f59",
+          "data": {
+            "name": "General Q&A (knowledge base)",
+            "color": "#5b9fd7",
+            "steps": [
+              "cmiloxmk20l2p071j7aq2ap75"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2e071j2jjl56jv": {
+          "type": "block",
+          "coords": [
+            434.7450474459011,
+            672.7241730369467
+          ],
+          "nodeID": "cmiloxmk20l2e071j2jjl56jv",
+          "data": {
+            "name": "Demo qualification: Email capture",
+            "color": "#5b9fd7",
+            "steps": [
+              "cmiloxmk20l2q071j26jwa1az"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            },
+            "triggers": []
+          }
+        },
+        "cmiloxmk20l2f071j1cpq8nzs": {
+          "type": "block",
+          "coords": [
+            886.0915050993538,
+            166.41670762495548
+          ],
+          "nodeID": "cmiloxmk20l2f071j1cpq8nzs",
+          "data": {
+            "name": "Retry email capture",
+            "color": "#5b9fd7",
+            "steps": [
+              "cmiloxmk20l2r071jez5e7u9x"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2h071j9ucp3ahe": {
+          "type": "block",
+          "coords": [
+            1631.7857610006001,
+            116.717992045995
+          ],
+          "nodeID": "cmiloxmk20l2h071j9ucp3ahe",
+          "data": {
+            "name": "Ask company size",
+            "color": "#5b9fd7",
+            "steps": [
+              "cmiloxmk20l2t071j7v4l15fu"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2i071jfamm2jio": {
+          "type": "block",
+          "coords": [
+            2150,
+            0
+          ],
+          "nodeID": "cmiloxmk20l2i071jfamm2jio",
+          "data": {
+            "name": "Retry company size capture",
+            "color": "#5b9fd7",
+            "steps": [
+              "cmiloxmk20l2u071j5jteg6uw"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2j071jb5omahor": {
+          "type": "block",
+          "coords": [
+            2150,
+            330
+          ],
+          "nodeID": "cmiloxmk20l2j071jb5omahor",
+          "data": {
+            "name": "Company size decision point",
+            "color": "#A1ADBA",
+            "steps": [
+              "cmiloxmk20l2v071j748rav86"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2k071jaj566m49": {
+          "type": "block",
+          "coords": [
+            2580,
+            0
+          ],
+          "nodeID": "cmiloxmk20l2k071jaj566m49",
+          "data": {
+            "name": "Enterprise account director handoff",
+            "color": "#56b365",
+            "steps": [
+              "cmiloxmk20l2w071j8t7861ti"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2l071j7vrxaz28": {
+          "type": "block",
+          "coords": [
+            2580,
+            330
+          ],
+          "nodeID": "cmiloxmk20l2l071j7vrxaz28",
+          "data": {
+            "name": "Self-serve plan and pricing link",
+            "color": "#56b365",
+            "steps": [
+              "cmiloxmk20l2x071j9mzfd3fz"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2m071j4lrhgktx": {
+          "type": "block",
+          "coords": [
+            992.5407857163353,
+            854.2941688673653
+          ],
+          "nodeID": "cmiloxmk20l2m071j4lrhgktx",
+          "data": {
+            "name": "Wrap-up happy exit",
+            "color": "#56b365",
+            "steps": [
+              "cmiloxmk20l2y071j0h192s3u"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "cmiloxmk20l2n071j3fa85tnh": {
+          "type": "block",
+          "coords": [
+            1614.5915867645506,
+            818.2403008768329
+          ],
+          "nodeID": "cmiloxmk20l2n071j3fa85tnh",
+          "data": {
+            "name": "Wrap-up unhappy exit",
+            "color": "#CB627B",
+            "steps": [
+              "cmiloxmk30l2z071jbocu9so3"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            },
+            "triggers": []
+          }
+        },
+        "692fe7a2d3ecca819b7efbee": {
+          "type": "api-v2",
+          "data": {
+            "name": "",
+            "url": [
+              {
+                "text": [
+                  "https://unsprouted-nonstatistical-chantel.ngrok-free.dev/webhook-test/enrich"
+                ]
+              }
+            ],
+            "headers": [],
+            "httpMethod": "post",
+            "queryParameters": [],
+            "responseMappings": [
+              {
+                "id": "cmippia7f00i0357vivtwks89",
+                "path": "response.employee_count",
+                "variableID": "692fec51d6c8edfc74aa3e4e"
+              }
+            ],
+            "portsV2": {
+              "byKey": {
+                "next": {
+                  "type": "next",
+                  "target": "69301369d3ecca819b7efc29",
+                  "id": "692fe7a2d3ecca819b7efbef",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          1015.45,
+                          689.37
+                        ]
+                      },
+                      {
+                        "point": [
+                          1041.92,
+                          689.37
+                        ]
+                      },
+                      {
+                        "point": [
+                          1041.92,
+                          580.82
+                        ]
+                      },
+                      {
+                        "point": [
+                          1068.4,
+                          580.82
+                        ],
+                        "allowedToTop": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            },
+            "body": {
+              "type": "raw-input",
+              "contentType": "json",
+              "content": [
+                "{\n  \"email\": {Valid email provided}\n}"
+              ]
+            }
+          },
+          "nodeID": "692fe7a2d3ecca819b7efbee"
+        },
+        "692fe7a2d3ecca819b7efbf1": {
+          "type": "block",
+          "data": {
+            "name": "New Block 13",
+            "steps": [
+              "692fe7a2d3ecca819b7efbee"
+            ]
+          },
+          "nodeID": "692fe7a2d3ecca819b7efbf1",
+          "coords": [
+            849.4508332603281,
+            586.1189486901587
+          ]
+        },
+        "69301369d3ecca819b7efc29": {
+          "type": "condition-v3",
+          "data": {
+            "name": "",
+            "noMatch": {
+              "path": true,
+              "repromptID": null
+            },
+            "condition": {
+              "type": "logic",
+              "items": [
+                {
+                  "id": "cmipw12ki025l357vjc83mr2h",
+                  "value": {
+                    "type": "value-variable",
+                    "matchAll": true,
+                    "assertions": [
+                      {
+                        "lhs": {
+                          "variableID": "692fec51d6c8edfc74aa3e4e"
+                        },
+                        "rhs": [
+                          {
+                            "text": [
+                              "true"
+                            ]
+                          }
+                        ],
+                        "key": "cmipw12ki025m357v3j4nx892",
+                        "operation": "is"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "portsV2": {
+              "byKey": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "69301369d3ecca819b7efc2a"
+                },
+                "cmipw12ki025l357vjc83mr2h": {
+                  "id": "69301668d3ecca819b7efc3a",
+                  "target": null,
+                  "type": ""
+                },
+                "else": {
+                  "id": "6930166cd3ecca819b7efc3c",
+                  "target": null,
+                  "type": "else"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "nodeID": "69301369d3ecca819b7efc29"
+        },
+        "69301369d3ecca819b7efc2c": {
+          "type": "block",
+          "data": {
+            "name": "New Block 13",
+            "steps": [
+              "69301369d3ecca819b7efc29"
+            ]
+          },
+          "nodeID": "69301369d3ecca819b7efc2c",
+          "coords": [
+            1234.3992233130723,
+            501.8240177997022
+          ]
+        }
+      },
+      "offsetX": 777.0374918342076,
+      "offsetY": 288.8125004209171,
+      "modified": 1764505343,
+      "variables": [],
+      "creatorID": 1861622,
+      "_id": "692c3711906ea96d5406d341",
+      "diagramID": "692c371109ca61000745e2ac",
+      "versionID": "692c3711906ea96d5406d33f"
+    }
+  },
+  "flows": [],
+  "entities": [],
+  "entityVariants": [],
+  "intents": [
+    {
+      "id": "None",
+      "name": "None",
+      "createdByID": 1861622,
+      "folderID": null,
+      "description": null,
+      "automaticReprompt": false,
+      "entityOrder": [],
+      "automaticRepromptSettings": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "utterances": [],
+  "requiredEntities": [],
+  "folders": [],
+  "responses": [],
+  "responseMessages": [],
+  "responseDiscriminators": [],
+  "variables": [
+    {
+      "id": "692fec51d6c8edfc74aa3e4e",
+      "name": "company_size",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": false,
+      "datatype": "any",
+      "description": "",
+      "defaultValue": null,
+      "createdAt": "2025-12-03T07:52:50.000Z",
+      "updatedAt": "2025-12-03T07:52:50.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "sessions",
+      "name": "sessions",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "The number of times a particular user has opened the app.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "user_id",
+      "name": "user_id",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The user's unique ID.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "timestamp",
+      "name": "timestamp",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "UNIX timestamp (number of seconds since January 1st, 1970 at UTC).",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "platform",
+      "name": "platform",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The platform your agent is running on (e.g. \"voiceflow\").",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "locale",
+      "name": "locale",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The locale of the user (eg. en-US, en-CA, it-IT, fr-FR, ...).",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "intent_confidence",
+      "name": "intent_confidence",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "The confidence interval (measured as a value from 0 to 100) for the most recently matched intent.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "last_response",
+      "name": "last_response",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The agent's last response (text/speak) in a string.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "last_event",
+      "name": "last_event",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "any",
+      "description": "The object containing the last event that the user client has triggered.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "last_utterance",
+      "name": "last_utterance",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The user's last utterance in a text string.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_memory",
+      "name": "vf_memory",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "Last 10 user inputs and agent responses in a string (e.g. \"agent: How can i help?\"\nuser: What's the weather today?).",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_date",
+      "name": "vf_date",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "date",
+      "description": "Current date in the format \"Jan 1, 2025\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_time",
+      "name": "vf_time",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "Current time in the format \"16:37\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_day",
+      "name": "vf_day",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "Current day of month in the format \"1\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_month",
+      "name": "vf_month",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "Current month in the format \"January\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_year",
+      "name": "vf_year",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "Current year in the format \"2025\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_now",
+      "name": "vf_now",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "date",
+      "description": "Current date and time in the format \"Jan 1, 2025, 16:37\". You can modify the timezone in project settings.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "vf_user_timezone",
+      "name": "vf_user_timezone",
+      "createdByID": 1861622,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The user's timezone in the format \"America/Toronto\", if available. Defaults to the project timezone.",
+      "defaultValue": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "workflows": [
+    {
+      "id": "66df755be937eb000784abb2",
+      "name": "Start workflow",
+      "createdByID": 1861622,
+      "folderID": null,
+      "status": null,
+      "isStart": true,
+      "diagramID": "692c371109ca61000745e2ac",
+      "assigneeID": null,
+      "description": "",
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-12-03T10:53:29.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "attachments": [],
+  "cardButtons": [],
+  "prompts": [
+    {
+      "id": "6930138be3a70d48fecb5883",
+      "name": "Untitled prompt",
+      "createdByID": 1861622,
+      "folderID": null,
+      "description": null,
+      "settings": {
+        "useStructuredOutput": false
+      },
+      "messageOrder": [
+        "6930138be3a70d48fecb5884",
+        "6930138be3a70d48fecb5885"
+      ],
+      "draft": false,
+      "createdAt": "2025-12-03T10:40:11.000Z",
+      "updatedAt": "2025-12-03T10:40:11.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "69301580e3a70d48fecb588c",
+      "name": "Untitled prompt",
+      "createdByID": 1861622,
+      "folderID": null,
+      "description": null,
+      "settings": {
+        "useStructuredOutput": false
+      },
+      "messageOrder": [
+        "69301580e3a70d48fecb588d",
+        "69301580e3a70d48fecb588e"
+      ],
+      "draft": false,
+      "createdAt": "2025-12-03T10:48:33.000Z",
+      "updatedAt": "2025-12-03T10:48:33.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "69301597e3a70d48fecb588f",
+      "name": "Untitled prompt",
+      "createdByID": 1861622,
+      "folderID": null,
+      "description": null,
+      "settings": {
+        "useStructuredOutput": false
+      },
+      "messageOrder": [
+        "69301597e3a70d48fecb5890",
+        "69301597e3a70d48fecb5891"
+      ],
+      "draft": false,
+      "createdAt": "2025-12-03T10:48:55.000Z",
+      "updatedAt": "2025-12-03T10:49:49.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "promptMessages": [
+    {
+      "id": "6930138be3a70d48fecb5884",
+      "promptID": "6930138be3a70d48fecb5883",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "system",
+        "content": [
+          {
+            "text": [
+              "You are an expert Voiceflow developer and conversation designer. Your task is to provide clear, step-by-step instructions on how to implement conditional logic within the Voiceflow Creator tool.\r\n\r\nWhen given a user goal (e.g., \"skip a question if a variable is already set\"), you must:\r\n1. Identify the correct block type to use (Logic/If-Else).\r\n2. Explain exactly where to place it in the flow.\r\n3. Define the specific conditions (variables, operators, values) required.\r\n4. Describe how to connect the \"If\" (True) and \"Else\" (False) paths to the existing conversation nodes.\r\n5. Keep instructions concise and action-oriented (e.g., \"Drag a Logic block...\")."
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:40:11.000Z"
+    },
+    {
+      "id": "6930138be3a70d48fecb5885",
+      "promptID": "6930138be3a70d48fecb5883",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "user",
+        "content": [
+          {
+            "text": [
+              "I have an API step in my Voiceflow agent that fetches a user's company size and saves it to the variable ",
+              {
+                "variableID": "692fec51d6c8edfc74aa3e4e"
+              },
+              ".\r\n\r\nRight now, the flow goes straight from the API step to a \"Capture\" step that asks: \"How many employees work at your company?\"\r\n\r\nI need to add a Logic block between the API step and the Capture step to skip that question if the API successfully found the data.\r\n\r\nPlease give me the exact configuration steps to:\r\n1. Check if `",
+              {
+                "variableID": "692fec51d6c8edfc74aa3e4e"
+              },
+              "` is greater than 0 (meaning data was found).\r\n2. If TRUE: Route directly to the \"Company size decision point\" block (skipping the question).\r\n3. If FALSE: Route to the \"Ask company size\" block (asking the question)."
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:40:11.000Z"
+    },
+    {
+      "id": "69301580e3a70d48fecb588d",
+      "promptID": "69301580e3a70d48fecb588c",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "system",
+        "content": [
+          {
+            "text": [
+              ""
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:48:33.000Z"
+    },
+    {
+      "id": "69301580e3a70d48fecb588e",
+      "promptID": "69301580e3a70d48fecb588c",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "user",
+        "content": [
+          {
+            "text": [
+              ""
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:48:33.000Z"
+    },
+    {
+      "id": "69301597e3a70d48fecb5890",
+      "promptID": "69301597e3a70d48fecb588f",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "system",
+        "content": [
+          {
+            "text": [
+              "You are an expert Voiceflow developer and conversation designer. Your task is to provide clear, step-by-step instructions on how to implement conditional logic within the Voiceflow Creator tool.\r\n\r\nWhen given a user goal (e.g., \"skip a question if a variable is already set\"), you must:\r\n1. Identify the correct block type to use (Logic/If-Else).\r\n2. Explain exactly where to place it in the flow.\r\n3. Define the specific conditions (variables, operators, values) required.\r\n4. Describe how to connect the \"If\" (True) and \"Else\" (False) paths to the existing conversation nodes.\r\n5. Keep instructions concise and action-oriented (e.g., \"Drag a Logic block...\")."
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:48:55.000Z"
+    },
+    {
+      "id": "69301597e3a70d48fecb5891",
+      "promptID": "69301597e3a70d48fecb588f",
+      "pairID": null,
+      "type": "role",
+      "data": {
+        "role": "user",
+        "content": [
+          {
+            "text": [
+              "I have an API step in my Voiceflow agent that fetches a user's company size and saves it to the variable `",
+              {
+                "variableID": "692fec51d6c8edfc74aa3e4e"
+              },
+              "`.\r\n\r\nRight now, the flow goes straight from the API step to a \"Capture\" step that asks: \"How many employees work at your company?\"\r\n\r\nI need to add a Logic block between the API step and the Capture step to skip that question if the API successfully found the data.\r\n\r\nPlease give me the exact configuration steps to:\r\n1. Check if `",
+              {
+                "variableID": "692fec51d6c8edfc74aa3e4e"
+              },
+              "` is greater than 0 (meaning data was found).\r\n2. If TRUE: Route directly to the \"Company size decision point\" block (skipping the question).\r\n3. If FALSE: Route to the \"Ask company size\" block (asking the question)."
+            ]
+          }
+        ]
+      },
+      "createdAt": "2025-12-03T10:48:55.000Z"
+    }
+  ],
+  "events": [],
+  "agents": [
+    {
+      "id": "692c371109ca61000745e28c",
+      "name": "Greeting and introduction",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Greet the user with: \"Hi! I'm the Syncora AI. I can answer questions about our platform or help you book a demo. How can I help?\" Listen for user intent and route to either general Q&A (knowledge base) or qualification for a demo."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e298",
+        "692c371109ca61000745e299"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e28d",
+      "name": "General Q&A (knowledge base)",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Answer general questions about Syncora Systems using the knowledge base. After providing the answer, always ask: \"Would you like to see a demo?\" Capture a clear 'yes' or 'no' intent to route appropriately."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e29a",
+        "692c371109ca61000745e29b"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": {
+        "enabled": true,
+        "description": "Searches an external knowledge base to retrieve relevant information, supplementing or replacing the language model's internal context."
+      },
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e28e",
+      "name": "Demo qualification: Email capture",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Begin the qualification process for a demo. Ask: \"Great! To get you to the right specialist, what is your business email address?\" Validate their input as a business email address."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e29c",
+        "692c371109ca61000745e29d"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e28f",
+      "name": "Retry email capture",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Inform the user: \"That doesn't look like a business email. Could you please provide your business email address?\" Validate input once more."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e29e",
+        "692c371109ca61000745e29f"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e290",
+      "name": "API webhook step (n8n placeholder)",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Immediately run a scenario to send the captured email to the n8n webhook. Store email as {email}. Do not notify the user of this background step."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a0"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e291",
+      "name": "Ask company size",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Ask: \"Thanks. Just one more question: roughly how many employees work at your company?\" Capture input and save as {company_size}. Validate that the input is a numeric value, greater than zero."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a2",
+        "692c371109ca61000745e2a3"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e292",
+      "name": "Retry company size capture",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Let the user know: \"Sorry, I didn’t catch that. How many employees work at your company? Please provide a number.\" Validate that the input is a positive number."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a4",
+        "692c371109ca61000745e2a5"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e293",
+      "name": "Company size decision point",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Evaluate the numeric value captured as {company_size}. If greater than 50, proceed to the enterprise path. Otherwise, proceed to the standard self-serve path."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a6",
+        "692c371109ca61000745e2a7"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e294",
+      "name": "Enterprise account director handoff",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Inform the user: \"Excellent. I see you're with a growing team. I am connecting you directly with our Enterprise Account Director.\" Display a text block with a placeholder for a Calendly link to book a meeting."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a8"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e295",
+      "name": "Self-serve plan and pricing link",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Tell the user: \"Thanks! For teams your size, our Self-Serve plan is the best fit. You can get started instantly.\" Display a text block with a link to the pricing page (e.g., https://syncorasystems.com/pricing)."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2a9"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e296",
+      "name": "Wrap-up happy exit",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Thank the user courteously for their interest or question. Maintain a professional tone and let them know they can return at any time if they need more help."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2aa"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    },
+    {
+      "id": "692c371109ca61000745e297",
+      "name": "Wrap-up unhappy exit",
+      "createdByID": 1861622,
+      "folderID": null,
+      "settings": {
+        "model": "claude-4-sonnet",
+        "maxTokens": 5000,
+        "temperature": 0.3,
+        "reasoningEffort": null
+      },
+      "description": null,
+      "instructions": [
+        {
+          "text": [
+            "Express regret that you couldn't assist further due to invalid information and invite them to try again later. Maintain a professional demeanor."
+          ]
+        }
+      ],
+      "pathToolOrder": [
+        "692c371109ca61000745e2ab"
+      ],
+      "webSearchTool": null,
+      "knowledgeBaseTool": null,
+      "buttonTool": null,
+      "cardTool": null,
+      "carouselTool": null,
+      "callForwardTool": null,
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "agentAPITools": [],
+  "agentPathTools": [
+    {
+      "id": "692c371109ca61000745e298",
+      "name": "User wants general information or asks a question",
+      "agentID": "692c371109ca61000745e28c",
+      "description": "Triggered if the user asks about features, pricing, platform, or another general question.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e299",
+      "name": "User expresses interest in a demo or booking a meeting",
+      "agentID": "692c371109ca61000745e28c",
+      "description": "Triggered if the user requests a demo or expresses interest in a sales call or booking.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29a",
+      "name": "User expresses interest in a demo or says yes",
+      "agentID": "692c371109ca61000745e28d",
+      "description": "If user replies positively to demo suggestion or asks to see a demo.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29b",
+      "name": "User does not want demo or conversation ends",
+      "agentID": "692c371109ca61000745e28d",
+      "description": "If user says no or signals end of conversation after question is resolved.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29c",
+      "name": "Valid email provided",
+      "agentID": "692c371109ca61000745e28e",
+      "description": "User provides a valid email address.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29d",
+      "name": "Invalid email provided, ask to retry",
+      "agentID": "692c371109ca61000745e28e",
+      "description": "User provides an invalid email address (missing '@' or not business email).",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29e",
+      "name": "Valid email provided on retry",
+      "agentID": "692c371109ca61000745e28f",
+      "description": "User provides a valid email on the retry.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e29f",
+      "name": "Invalid email provided again",
+      "agentID": "692c371109ca61000745e28f",
+      "description": "User fails to provide a valid business email twice.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a0",
+      "name": "Continue to ask for company size",
+      "agentID": "692c371109ca61000745e290",
+      "description": "After webhook step completes, proceed to next qualification question.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a2",
+      "name": "Valid company size provided",
+      "agentID": "692c371109ca61000745e291",
+      "description": "User provides a valid positive integer for company size.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a3",
+      "name": "Invalid company size provided, ask to retry",
+      "agentID": "692c371109ca61000745e291",
+      "description": "User provides a non-numeric, zero, or negative value for company size.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a4",
+      "name": "Valid company size provided on retry",
+      "agentID": "692c371109ca61000745e292",
+      "description": "User provides a valid company size on retry.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a5",
+      "name": "Invalid value provided again",
+      "agentID": "692c371109ca61000745e292",
+      "description": "User fails to provide a valid company size after a second attempt.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a6",
+      "name": "Company size greater than 50 (VIP)",
+      "agentID": "692c371109ca61000745e293",
+      "description": "Route to enterprise flow for companies with more than 50 employees.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a7",
+      "name": "Company size 50 or fewer (Standard)",
+      "agentID": "692c371109ca61000745e293",
+      "description": "Route to standard self-serve plan for companies with 50 or fewer employees.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a8",
+      "name": "Demo flow concluded, conversation complete",
+      "agentID": "692c371109ca61000745e294",
+      "description": "End the flow after enterprise handoff and link display.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2a9",
+      "name": "Self-serve plan presented, conversation complete",
+      "agentID": "692c371109ca61000745e295",
+      "description": "End the flow after pricing link is given.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2aa",
+      "name": "Conversation complete",
+      "agentID": "692c371109ca61000745e296",
+      "description": "Exit after happy wrap-up.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    },
+    {
+      "id": "692c371109ca61000745e2ab",
+      "name": "Unhappy path complete",
+      "agentID": "692c371109ca61000745e297",
+      "description": "End the flow after polite apologies.",
+      "variableOrder": [],
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    }
+  ],
+  "agentFunctionTools": [],
+  "agentIntegrationTools": [
+    {
+      "id": "692c371109ca61000745e2a1",
+      "agentID": "692c371109ca61000745e290",
+      "description": null,
+      "inputVariables": {},
+      "captureResponse": null,
+      "captureInputVariables": null,
+      "integrationToolID": "692c36ff09ca61000745e287",
+      "createdAt": "2025-11-30T12:22:42.000Z"
+    }
+  ],
+  "agentPathToolVariables": [],
+  "agentMcpIntegrationTools": [],
+  "apiTools": [],
+  "apiToolInputVariables": [],
+  "integrationTools": [
+    {
+      "id": "692c36ff09ca61000745e287",
+      "name": "Run scenario",
+      "createdByID": 1861622,
+      "folderID": null,
+      "toolName": "make_run_scenario",
+      "description": null,
+      "toolProvider": "make",
+      "createdAt": "2025-11-30T12:22:42.000Z",
+      "updatedAt": "2025-11-30T12:22:42.000Z",
+      "updatedByID": 1861622
+    }
+  ],
+  "functions": [],
+  "functionPaths": [],
+  "functionVariables": [],
+  "mcpServers": [],
+  "mcpServerTools": [],
+  "mcpIntegrationTools": [],
+  "project": {
+    "type": "chat",
+    "name": "Syncora Systems B2B SaaS Lead Generation and Concierge Flow",
+    "image": "",
+    "teamID": "rxER1qa9nR",
+    "members": [],
+    "privacy": "private",
+    "platform": "webchat",
+    "_version": 1.2,
+    "linkType": "STRAIGHT",
+    "creatorID": 1861622,
+    "updatedBy": 1861622,
+    "apiPrivacy": "public",
+    "platformData": {
+      "invocationName": "template project general"
+    },
+    "customThemes": [],
+    "aiAssistSettings": {
+      "aiPlayground": true
+    },
+    "_id": "692c3711906ea96d5406d33e",
+    "updatedAt": "2025-12-03T10:53:21.250Z",
+    "devVersion": "692c3711906ea96d5406d33f",
+    "liveVersion": "692c3711906ea96d5406d340"
+  },
+  "_version": "1.2",
+  "secrets": [],
+  "variableStates": [],
+  "transcriptEvaluations": [
+    {
+      "name": "Deflection rate",
+      "default": true,
+      "description": null,
+      "type": "boolean",
+      "enabled": false,
+      "prompt": "Determine if the user requested to talk to a human in order to achieve their desired outcome.",
+      "settings": null,
+      "systemTag": null,
+      "truePrompt": "The user did not require the need to talk to a human.",
+      "falsePrompt": "The user required the need to talk to a human agent."
+    },
+    {
+      "name": "Satisfaction score",
+      "default": true,
+      "description": null,
+      "type": "number",
+      "enabled": false,
+      "prompt": "Rate the user's overall satisfaction based on the conversation, using a scale from 1 to 5.",
+      "settings": null,
+      "systemTag": null,
+      "minimumValue": 1,
+      "minimumPrompt": "Look for negative comments or expressions of dissatisfaction to rate the minimum satisfaction.",
+      "maximumValue": 5,
+      "maximumPrompt": "Identify any comments or phrases in the transcript that express the highest level of satisfaction."
+    },
+    {
+      "name": "AI summary",
+      "default": true,
+      "description": null,
+      "type": "string",
+      "enabled": false,
+      "prompt": "Look at the transcript and provide a brief summary of the conversation. Make sure to highlight the outcome of the conversation, and key moments or topics, and the overall tone of the customer.",
+      "settings": null,
+      "systemTag": null
+    }
+  ]
+}
