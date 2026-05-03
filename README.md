@@ -61,7 +61,7 @@ To eliminate human operational latency and automate high-value business pipeline
 │ Voice & Synthesis Core  │ ElevenLabs / Deepgram Nova-2                    │
 │ Data Persistence        │ PostgreSQL / Supabase / Vector DBs              │
 └─────────────────────────┴─────────────────────────────────────────────────┘
-
+```
 ## 🚀 Deployment Directives
 
 To clone and replicate any specific pipeline in a staging or production environment:
