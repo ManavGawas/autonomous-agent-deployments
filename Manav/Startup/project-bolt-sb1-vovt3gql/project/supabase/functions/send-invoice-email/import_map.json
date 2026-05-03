@@ -1,7 +1,0 @@
-{
-  "imports": {
-    "mailgen": "https://esm.sh/mailgen",
-    "resend": "https://esm.sh/resend",
-    "supabase": "https://esm.sh/@supabase/supabase-js"
-  }
-}
